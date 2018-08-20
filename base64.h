@@ -1,10 +1,8 @@
-# base64
-The implementation of base64 encode and decode in C language.
+#ifndef _BASE64_H
+#define _BASE64_H
+#include <stdio.h>
+#include <stdint.h>
 
-# Why reinvent the wheel?
-There are many implementation of base64 encode and decode for C language. perhaps I am not a good programmer, but I think coding style is very important. and I couldn't found a good implementation. so this is why I reinvent the wheel.
-
-# How to use?
 /*
  * Base64 encode API.
  *
@@ -29,3 +27,36 @@ int base64_encode(const void *src, size_t n, char *buf, size_t bufsz);
  */
 int base64_decode(const char *src, size_t n, void *buf, size_t bufsz);
 
+static inline size_t base64_encode_length(size_t n)
+{
+	size_t r = n % 3;
+
+	if (r == 1)
+		return n / 3 * 4 + 2;
+	else if (r == 2)
+		return n / 3 * 4 + 1;
+
+	return n / 3 * 4;
+}
+
+static inline size_t base64_encode_length_max(size_t n)
+{
+	return n / 3 * 4 + 2;
+}
+
+static inline size_t base64_decode_length(const char *src, size_t n)
+{
+	if (src[n - 1] == '=' && src[n - 2] == '=')
+		return n / 4 * 3 - 2;
+	else if (src[n - 1] == '=')
+		return n / 4 * 3 - 1;
+
+	return n / 4 * 3;
+}
+
+static inline size_t base64_decode_length_max(size_t n)
+{
+	return n / 4 * 3;
+}
+
+#endif
