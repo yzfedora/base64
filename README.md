@@ -5,6 +5,7 @@ The implementation of base64 encode and decode in C language.
 There are many implementation of base64 encode and decode for C language. perhaps I am not a good programmer, but I think coding style is very important. and I couldn't found a good implementation. so this is why I reinvent the wheel.
 
 # How to use?
+```C
 /*
  * Base64 encode API.
  *
@@ -28,4 +29,4 @@ int base64_encode(const void *src, size_t n, char *buf, size_t bufsz);
  * @return Return 0 on success or -1 if insufficient buffer size.
  */
 int base64_decode(const char *src, size_t n, void *buf, size_t bufsz);
-
+```
