@@ -5,7 +5,7 @@
  *
  * Python script for generate the base64 encode and decode table.
  *
- * import string
+ * 	import string
  *
  * 	encode_table = string.ascii_uppercase + string.ascii_lowercase + string.digits + '+/'
  * 	decode_table = []
