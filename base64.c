@@ -109,7 +109,7 @@ int base64_encode(const void *src, size_t n, char *buf, size_t bufsz)
 		uint8_t b = ((uint8_t *)src)[n - 1];
 		buf[length_max - 4] = b64e[((a & 0xfc) >> 2)];
 		buf[length_max - 3] = b64e[((a & 0x03) << 4) | ((b & 0xf0) >> 4)];
-		buf[length_max - 2 ] = b64e[((b & 0x0f) << 2)];
+		buf[length_max - 2] = b64e[((b & 0x0f) << 2)];
 		buf[length_max - 1] = '=';
 	} else if (n % 3 == 1) {
 		uint8_t a = ((uint8_t *)src)[n - 1];
