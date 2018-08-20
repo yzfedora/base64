@@ -88,7 +88,9 @@ static const int b64d[] = {
 
 int base64_encode(const void *src, size_t n, char *buf, size_t bufsz)
 {
-	if (bufsz < base64_encode_length_max(n) + 1)
+	size_t length_max = base64_encode_length_max(n);
+
+	if (bufsz < length_max + 1)	/* include trailing 0 */
 		return -1;
 
 	for (size_t i = 0; i < n / 3; i++) {
@@ -105,22 +107,19 @@ int base64_encode(const void *src, size_t n, char *buf, size_t bufsz)
 	if (n % 3 == 2) {
 		uint8_t a = ((uint8_t *)src)[n - 2];
 		uint8_t b = ((uint8_t *)src)[n - 1];
-		int idx = n / 3 * 4;
-		buf[idx + 0] = b64e[((a & 0xfc) >> 2)];
-		buf[idx + 1] = b64e[((a & 0x03) << 4) | ((b & 0xf0) >> 4)];
-		buf[idx + 2] = b64e[((b & 0x0f) << 2)];
-		buf[idx + 3] = '=';
-		buf[idx + 4] = 0;
+		buf[length_max - 4] = b64e[((a & 0xfc) >> 2)];
+		buf[length_max - 3] = b64e[((a & 0x03) << 4) | ((b & 0xf0) >> 4)];
+		buf[length_max - 2] = b64e[((b & 0x0f) << 2)];
+		buf[length_max - 1] = '=';
 	} else if (n % 3 == 1) {
 		uint8_t a = ((uint8_t *)src)[n - 1];
-		int idx = n / 3 * 4;
-		buf[idx + 0] = b64e[(a & 0xfc) >> 2];
-		buf[idx + 1] = b64e[(a & 0x03) << 4];
-		buf[idx + 2] = '=';
-		buf[idx + 3] = '=';
-		buf[idx + 4] = 0;
+		buf[length_max - 4] = b64e[(a & 0xfc) >> 2];
+		buf[length_max - 3] = b64e[(a & 0x03) << 4];
+		buf[length_max - 2] = '=';
+		buf[length_max - 1] = '=';
 	}
 
+	buf[length_max] = 0;
 	return 0;
 }
 
