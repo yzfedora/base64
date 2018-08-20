@@ -5,6 +5,7 @@ The implementation of base64 encode and decode in C language.
 There are many implementation of base64 encode and decode for C language. perhaps I am not a good programmer, but I think coding style is very important. and I couldn't found a good implementation. so this is why I reinvent the wheel.
 
 # How to use?
+Just copy the base64.[ch] source code to your project. and include the base64.h. Here is the major API for base64 encode and decode.
 ```C
 /*
  * Base64 encode API.
