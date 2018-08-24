@@ -27,7 +27,8 @@ int base64_encode(const void *src, size_t n, char *buf, size_t bufsz);
  * @param buf	The buffer for store the decode result.
  * @param bufsz	The size of buffer.
  *
- * @return Return 0 on success or -1 if insufficient buffer size.
+ * @return Return the length of decoded data on success or -1 if
+ * insufficient buffer size.
  */
 int base64_decode(const char *src, size_t n, void *buf, size_t bufsz);
 ```

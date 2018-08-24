@@ -125,12 +125,14 @@ int base64_encode(const void *src, size_t n, char *buf, size_t bufsz)
 
 int base64_decode(const char *src, size_t n, void *buf, size_t bufsz)
 {
+	size_t length_max = base64_decode_length_max(n);
+
 	/*
 	 * The buffer size has to be greater than the maximum length of decode
 	 * result. so we can ignore the check of trailing "=". in the decode
 	 * table, "=" is mapped to 0.
 	 */
-	if (bufsz < base64_decode_length_max(n))
+	if (bufsz < length_max)
 		return -1;
 
 	for (size_t i = 0; i < n / 4; i++) {
@@ -144,7 +146,7 @@ int base64_decode(const char *src, size_t n, void *buf, size_t bufsz)
 		((uint8_t *)buf)[i * 3 + 2] = ((c & 0x03) << 6) | ((d & 0x3f) >> 0);
 	}
 
-	return 0;
+	return length_max - base64_padding(src, n);
 }
 
 #if 0

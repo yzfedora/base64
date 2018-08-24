@@ -23,7 +23,8 @@ int base64_encode(const void *src, size_t n, char *buf, size_t bufsz);
  * @param buf	The buffer for store the decode result.
  * @param bufsz	The size of buffer.
  *
- * @return Return 0 on success or -1 if insufficient buffer size.
+ * @return Return the length of decoded data on success or -1 if
+ * insufficient buffer size.
  */
 int base64_decode(const char *src, size_t n, void *buf, size_t bufsz);
 
@@ -35,6 +36,16 @@ static inline size_t base64_encode_length_max(size_t n)
 static inline size_t base64_decode_length_max(size_t n)
 {
 	return n / 4 * 3;
+}
+
+static inline size_t base64_padding(const char *src, size_t n)
+{
+	if (src[n - 1] == '=' && src[n - 2] == '=')
+		return 2;
+	else if (src[n - 1] == '=')
+		return 1;
+
+	return 0;
 }
 
 #endif
